@@ -1,9 +1,20 @@
 from typing import Optional
 from fastapi import Depends, Header, HTTPException
+from collections.abc import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db import get_db
+from app.db import AsyncSessionLocal
 from app.services.task_service import TaskService
+
+
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
+    """Асинхронный зависимый генератор для получения сессии БД.
+
+    Yields:
+        Iterator[AsyncGenerator[AsyncSession, None]]: Асинхронная сессия БД
+    """
+    async with AsyncSessionLocal() as session:
+        yield session
 
 
 def get_current_user(x_user_id: Optional[str] = Header(None)) -> str:

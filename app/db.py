@@ -1,5 +1,4 @@
 import os
-from collections.abc import AsyncGenerator
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,
@@ -8,7 +7,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.orm import declarative_base
 
 
-DATABASE_URL = os.getenv("DATABASE_URL", '')
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@localhost:5432/dbname")
 
 engine = create_async_engine(
     DATABASE_URL,
@@ -25,13 +24,3 @@ AsyncSessionLocal = async_sessionmaker(
 )
 
 Base = declarative_base()
-
-
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    """Асинхронный зависимый генератор для получения сессии БД.
-
-    Yields:
-        Iterator[AsyncGenerator[AsyncSession, None]]: Асинхронная сессия БД
-    """
-    async with AsyncSessionLocal() as session:
-        yield session
