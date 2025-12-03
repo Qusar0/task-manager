@@ -1,0 +1,40 @@
+[flake8]
+max-line-length = 120
+
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    .venv,
+    migrations
+
+select =
+    C,E,F,W,B,B950,
+    WPS,
+    D
+
+ignore =
+    WPS110,
+    WPS305,
+    WPS404,
+    WPS602,
+    D100, D104, D401,
+    E203,
+    W503,
+    WPS432,
+    WPS226,
+    B008,
+    DAR201,
+    DAR101,
+    DAR301,
+    WPS111,
+    WPS115,
+    WPS600,
+    WPS306,
+    WPS210,
+    WPS202,
+
+import-order-style = google
+application-import-names = app
+
+eradicate-aggressive = True

@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install prod dependencies
+        run: |
+          pip install -r requirements.prod.txt
+
+      - name: Install dev dependencies
+        run: |
+          pip install -r requirements.dev.txt
+
+      - name: Lint with flake8
+        run: |
+          flake8 app --count --show-source --statistics
+
+      - name: Run tests
+        run: |
+          pytest -q
